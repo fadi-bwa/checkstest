@@ -18,10 +18,15 @@ env:
 jobs:
     Testjob:
         runs-on: ubuntu-latest
+
         steps:
+            - name: check out source files
+              uses: actions/checkout@v3
+
             - name: Get changed files
               id: changed-files
               uses: tj-actions/changed-files@v38
+        
             - name: List all changed files
               run: |
                 for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
