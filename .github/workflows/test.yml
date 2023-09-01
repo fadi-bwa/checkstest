@@ -1,5 +1,5 @@
 name: test gh actions
-on: [pull_request]
+on: pull_request
 env:
     PR_NUMBER: ${{ github.event.number}}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -23,6 +23,12 @@ jobs:
             - name: check out source files
               uses: actions/checkout@v3
 
+            - name: Get codeowners
+              id: codeowners
+              uses: SvanBoxel/codeowners-action@v1
+            - run: |
+                echo ${{ steps.codeowners.outputs.codeowners }};
+
             - name: Get changed files
               id: changed-files
               uses: tj-actions/changed-files@v38
@@ -30,5 +36,10 @@ jobs:
             - name: List all changed files
               run: |
                 for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                  if ${{ steps.codeowners.outputs.codeowners }} | grep -q "$file"; then
+                    echo "$file is owned by a codeowner"
+                  else
+                    echo "$file is not owned by a codeowner"
+                  fi
                   echo "$file was changed"
                 done
