@@ -40,7 +40,7 @@ jobs:
                 echo ${{ steps.codeowners.outputs.codeowners }};
                 for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
                   echo "current file: $file"
-                  if ${{ steps.codeowners.outputs.codeowners }} | grep "$file"; then
+                  if echo ${{ steps.codeowners.outputs.codeowners }} | grep "$file"; then
                     echo "$file is owned by a codeowner"
                   else
                     echo "$file is not owned by a codeowner"
