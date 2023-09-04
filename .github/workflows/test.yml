@@ -37,8 +37,10 @@ jobs:
         
             - name: List all changed files
               run: |
+                echo ${{ steps.codeowners.outputs.codeowners }};
                 for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-                  if ${{ steps.codeowners.outputs.codeowners }} | grep -q "$file"; then
+                  echo "current file: $file"
+                  if ${{ steps.codeowners.outputs.codeowners }} | grep "$file"; then
                     echo "$file is owned by a codeowner"
                   else
                     echo "$file is not owned by a codeowner"
