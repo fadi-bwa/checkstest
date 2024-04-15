@@ -45,5 +45,4 @@ jobs:
                   else
                     echo "$file is not owned by a codeowner"
                   fi
-                  echo "$file was changed"
                 done
